@@ -5,23 +5,52 @@ import statsmodels.api as sm
 import pandas_datareader as pdr
 import numpy as np
 
+# choose Australia as analysis target
+country_gdp_code = 'RGDPNAAUA666NRUG' # オーストラリアの四半期実質GDP
+country_name = 'Australia'
+
 # set the start and end dates for the data
-start_date = '1955-01-01'
+start_date = '1960-01-01'
 end_date = '2022-01-01'
 
 # download the data from FRED using pandas_datareader
-gdp = web.DataReader('GDPC1', 'fred', start_date, end_date)
-log_gdp = np.log(gdp)
+gdp = web.DataReader(country_gdp_code, 'fred', start_date, end_date)
+log_gdp = np.log(gdp[country_gdp_code])
 
 # apply a Hodrick-Prescott filter to the data to extract the cyclical component
-cycle, trend = sm.tsa.filters.hpfilter(log_gdp, lamb=1600)
+lambdas = {
+    'λ=10': 10,
+    'λ=100': 100,
+    'λ=1600 (四半期標準)': 1600
+}
+trends = {}
+cycles = {}
+for label, lambda_val in lambdas.items():
+    cycle, trend = sm.tsa.filters.hpfilter(log_gdp, lamb=lambda_val)
+    trends[label] = trend
+    cycles[label] = cycle
 
-# Plot the original time series data
-plt.plot(log_gdp, label="Original GDP (in log)")
+# graph 1: trend comparison
+plt.plot(log_gdp.index, log_gdp, label='Original log GDP')
 
-# Plot the trend component
-plt.plot(trend, label="Trend")
+for label, trend_series in trends.items():
+    plt.plot(trend_series.index, trend_series, label=f'Trend ({label})')
 
-# Add a legend and show the plot
+plt.title('Log Real GDP ({country_name} - {country_gdp_code}) and Trend Components (HP Filter)')
+plt.xlabel('Year')
+plt.ylabel('Log Value')
 plt.legend()
+plt.grid(True)
+plt.show()
+
+# graph 2: business cycle
+for label, cycle_series in cycles.items():
+    plt.plot(cycle_series.index, cycle_series, label='Cycle ({label})')
+
+plt.axhline(0, color='black', linestyle='--', linewidth=0.8) # ゼロライン
+plt.title('Cyclical Components of Log Real GDP ({country_name} - {country_gdp_code}) (HP Filter)')
+plt.xlabel('Year')
+plt.ylabel('Deviation from Trend (Log Value)')
+plt.legend()
+plt.grid(True)
 plt.show()
