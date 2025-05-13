@@ -45,7 +45,7 @@ plt.show()
 
 # graph 2: business cycle
 for label, cycle_series in cycles.items():
-    plt.plot(cycle_series.index, cycle_series, label='Cycle ({label})')
+    plt.plot(cycle_series.index, cycle_series, label=f'Cycle ({label})')
 
 plt.axhline(0, color='black', linestyle='--', linewidth=0.8) # ゼロライン
 plt.title('Australia - Cyclical Components of Log Real GDP')
