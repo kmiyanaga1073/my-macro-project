@@ -36,7 +36,7 @@ plt.plot(log_gdp.index, log_gdp, label='Original log GDP')
 for label, trend_series in trends.items():
     plt.plot(trend_series.index, trend_series, label=f'Trend ({label})')
 
-plt.title('Log Real GDP and Trend Components (Australia)')
+plt.title('Australia - Log Real GDP and Trend Components')
 plt.xlabel('Year')
 plt.ylabel('Log Value')
 plt.legend()
@@ -48,7 +48,7 @@ for label, cycle_series in cycles.items():
     plt.plot(cycle_series.index, cycle_series, label='Cycle ({label})')
 
 plt.axhline(0, color='black', linestyle='--', linewidth=0.8) # ゼロライン
-plt.title('Cyclical Components of Log Real GDP (Australia)')
+plt.title('Australia - Cyclical Components of Log Real GDP')
 plt.xlabel('Year')
 plt.ylabel('Deviation from Trend (Log Value)')
 plt.legend()
