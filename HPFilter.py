@@ -6,7 +6,7 @@ import pandas_datareader as pdr
 import numpy as np
 
 # choose Australia as analysis target
-country_gdp_code = 'RGDPNAAUA666NRUG' # オーストラリアの四半期実質GDP
+country_gdp_code = 'RGDPNAAUA666NRUG'
 country_name = 'Australia'
 
 # set the start and end dates for the data
@@ -21,7 +21,7 @@ log_gdp = np.log(gdp[country_gdp_code])
 lambdas = {
     'λ=10': 10,
     'λ=100': 100,
-    'λ=1600 (四半期標準)': 1600
+    'λ=1600': 1600
 }
 trends = {}
 cycles = {}
