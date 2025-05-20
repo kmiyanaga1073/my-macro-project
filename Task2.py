@@ -4,12 +4,14 @@ import numpy as np
 pwt90 = pd.read_stata('https://www.rug.nl/ggdc/docs/pwt90.dta')
 
 oecd_countries = [
+    'Australia', 'Austria', 'Belgium', 'Canada', 'Denmark', 'Finland', 'France', 'Germany', 'Greece', 'Iceland', 'Ireland',
+    'Italy', 'Japan', 'Netherlands', 'New Zealand', 'Norway', 'Portugal', 'Spain', 'Sweden', 'Switzerland',
     'United Kingdom', 'United States',
 ]
 
 data = pwt90[
     pwt90['country'].isin(oecd_countries) &
-    pwt90['year'].between(1970, 2010)
+    pwt90['year'].between(1960, 2000)
 ]
 
 relevant_cols = ['countrycode', 'country', 'year', 'rgdpna', 'rkna', 'pop', 'emp', 'avh', 'labsh', 'rtfpna']
@@ -77,7 +79,7 @@ avg_row_data = {
 }
 results_df = pd.concat([results_df, pd.DataFrame([avg_row_data])], ignore_index=True)
 
-print("\nGrowth Accounting in OECD Countries: 1970-2010 period")
+print("\nGrowth Accounting in OECD Countries: 1960-2000")
 print("="*85)
 print(results_df.to_string(index=False))
 
