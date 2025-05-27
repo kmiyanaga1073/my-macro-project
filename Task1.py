@@ -41,26 +41,26 @@ for country_name, country_info in countries.items():
     all_cycles[country_name] = cycles
 
 # calculate standard deviations
-print("\n--- 循環成分の標準偏差 ---")
+print("\n--- Standard Deviations ---")
 std_devs = {}
 for country_name, cycles_data in all_cycles.items():
     std_dev = cycles_data['λ=1600'].std()
     std_devs[country_name] = std_dev
-    print(f"{country_name}の標準偏差 (λ=1600): {std_dev:.4f}")
+    print(f"{country_name} Standard Deviation (λ=1600): {std_dev:.4f}")
 
 # calculate correlations
-print("\n--- 循環成分の相関係数 ---")
+print("\n--- Correlation Coefficients ---")
 australia_cycle = all_cycles['Australia']['λ=1600'].dropna()
 japan_cycle = all_cycles['Japan']['λ=1600'].dropna()
 common_index = australia_cycle.index.intersection(japan_cycle.index)
 correlation = australia_cycle.loc[common_index].corr(japan_cycle.loc[common_index])
-print(f"オーストラリアと日本の循環成分の相関係数 (λ=1600): {correlation:.4f}")
+print(f"Correlation Coefficient (λ=1600): {correlation:.4f}")
 
 # generate graph
 plt.figure(figsize=(12, 7))
 for country_key, country_info in countries.items():
-    country_name_en = country_info['name_en']
-    plt.plot(all_cycles[country_name_en]['λ=1600'].index, all_cycles[country_name_en]['λ=1600'], label=f'{country_name_en} Cycle (λ=1600)', linewidth=2)
+    display_name = country_info['name']
+    plt.plot(all_cycles[display_name]['λ=1600'].index, all_cycles[display_name]['λ=1600'], label=f'{display_name} Cycle (λ=1600)', linewidth=2)
 
 plt.axhline(0, color='black', linestyle='--', linewidth=0.8) # Zero line
 plt.title('Cyclical Components of Log Real GDP (λ=1600)')
